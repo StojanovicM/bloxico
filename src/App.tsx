@@ -14,11 +14,14 @@ const App: React.FC = () => {
     filter: ''
   });
 
+
   const debouncedFilterTerm = useDebounce(state.filter, 500)
+
 
   useEffect(() => {
     loadRecipes(state.currentPage)
   },[debouncedFilterTerm, state.currentPage])
+  
 
   const loadRecipes = async (page: number) => {
     let query = `?page=${page}`
@@ -28,6 +31,7 @@ const App: React.FC = () => {
     .then(response => response.json())
     .then(payload => setState({...state, ...payload}))
   }
+
 
   const deleteRecipe = async (id: number) => {
     await fetch(`http://localhost:8081/recipes/${id}`, { method: 'DELETE'})
