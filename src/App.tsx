@@ -21,7 +21,7 @@ const App: React.FC = () => {
   useEffect(() => {
     loadRecipes(state.currentPage)
   },[debouncedFilterTerm, state.currentPage])
-  
+
 
   const loadRecipes = async (page: number) => {
     let query = `?page=${page}`
@@ -37,6 +37,7 @@ const App: React.FC = () => {
     await fetch(`http://localhost:8081/recipes/${id}`, { method: 'DELETE'})
     .then(response => response.json)
     .then(() => {
+      // When deleting last remaining recipe on page, set currentPage to -1 to avoid receiving empty response
       if (state.recipes.length === 1 && state.totalPages > 1) {
         setState({...state, currentPage: state.currentPage - 1})
       }
